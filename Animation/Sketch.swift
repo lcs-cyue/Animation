@@ -13,13 +13,14 @@ class Sketch : NSObject {
     let thirdTurtle: Tortoise
     let fourthTurtle: Tortoise
     let fifthTurtle: Tortoise
-    
+    let sixthTurtle: Tortoise
     // L-systems
     let anotherKochConstruction: LindenmayerSystem
     let kochIsland: LindenmayerSystem
     let coniferousTree: LindenmayerSystem
     let genericSystem: LindenmayerSystem
     let plantLkeForm: LindenmayerSystem
+    let cubicFlowerSystem: LindenmayerSystem
     
     // This function runs once
     override init() {
@@ -36,6 +37,7 @@ class Sketch : NSObject {
         thirdTurtle = Tortoise(drawingUpon: canvas)
         fourthTurtle = Tortoise(drawingUpon: canvas)
         fifthTurtle = Tortoise(drawingUpon: canvas)
+        sixthTurtle = Tortoise(drawingUpon: canvas)
         
         // Create two deterministic systems
         anotherKochConstruction = LindenmayerSystem(axiom: "S-F",
@@ -81,12 +83,30 @@ class Sketch : NSObject {
                                             "F": [
                                                 RuleSet(odds: 1,successorText:"1/F+F"),
                                                 RuleSet(odds: 1,successorText:"1/F-F"),
-                                                 ],
+                                            ],
                                             "f": [RuleSet(odds: 1, successorText:"2/F+++++F")],
-                                                 ],
+            ],
                                          generations: 12,
                                          pointToStartRenderingFrom: Point(x: 100, y: 250),
                                          turtleToRenderWith: fifthTurtle)
+        
+        cubicFlowerSystem = LindenmayerSystem(axiom: "SF++++++F+++F",
+                                              length: 60,
+                                              initialDirection: 90,
+                                              angle: 60,
+                                              reduction: 1.6,
+                                              rules: [
+                                                "F": [
+                                                    RuleSet(odds: 1,successorText:"FfF"),
+                                                    
+                                                ],
+                                                "f": [RuleSet(odds: 1, successorText:"2/F+++++F")],
+            ],
+                                              generations: 6,
+                                              pointToStartRenderingFrom: Point(x: 300, y: 250),
+                                              turtleToRenderWith: sixthTurtle)
+        
+        
         // Create a stochastic system
         coniferousTree = LindenmayerSystem(axiom: "SF",
                                            length: 20,
@@ -120,7 +140,8 @@ class Sketch : NSObject {
         //        coniferousTree.update(forFrame: canvas.frameCount)
         //
         //        genericSystem.update(forFrame: canvas.frameCount)
-        plantLkeForm.update(forFrame: canvas.frameCount)
+        //plantLkeForm.update(forFrame: canvas.frameCount)
+        cubicFlower.update(forFrame: canvas.frameCount)
     }
     
 }
